@@ -1,0 +1,33 @@
+data Arvore  = Folha Int | Galho Arvore Arvore
+  deriving Show
+
+
+a1 = Galho (Galho (Folha 1) (Folha 2)) (Galho (Folha 3) (Folha 4))
+a2 = Galho (Galho (Galho (Folha 5) (Folha 6)) (Folha 7)) (Folha 8)
+a3 = Galho (Folha 23) (Galho (Galho (Folha 9) (Folha 10)) (Galho (Folha 11) (Folha 1200)))
+
+folhas :: Arvore -> Int
+folhas (Folha _) = 1
+folhas (Galho a1 a2) = folhas a1 + folhas a2 
+
+altura :: Arvore -> Int
+altura (Folha _) = 0
+altura (Galho a1 a2) = 1 + (max (altura a1) (altura a2))
+
+espelho :: Arvore -> Arvore
+espelho (Folha x) = (Folha x)
+espelho (Galho a1 a2) = (Galho (espelho a2) (espelho a1))
+
+soma :: Arvore -> Int
+soma (Folha x) = x
+soma (Galho a1 a2) = (soma a1) + (soma a2)
+
+dobra :: Arvore -> Arvore
+dobra (Folha x) = (Folha (2*x))
+dobra (Galho a1 a2) = Galho (dobra a1) (dobra a2)
+
+possui :: Arvore -> Int -> Bool
+possui (Folha x) k = (x == k)
+possui (Galho a1 a2) k = (possui a1 k) || (possui a2 k)
+
+main = print (possui a3 3)
