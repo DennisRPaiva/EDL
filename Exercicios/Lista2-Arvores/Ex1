@@ -1,0 +1,22 @@
+data Arvore = Folha | Galho Int Arvore Arvore
+  deriving Show
+
+a1 = Galho 1 (Galho 2 Folha Folha) (Galho 3 Folha Folha)
+a2 = Galho 4 (Galho 5 (Galho 23 Folha Folha) Folha) Folha
+a3 = Galho 6 Folha (Galho 7 (Galho 8 Folha Folha) (Galho 9 Folha Folha))
+
+folhas :: Arvore -> Int
+folhas Folha = 1
+folhas (Galho _ a1 a2) = folhas a1 + folhas a2
+
+altura :: Arvore -> Int
+altura Folha = 0
+altura (Galho _ a1 a2) = 1 + (max (altura a1) (altura a2))
+
+espelho :: Arvore -> Arvore
+espelho Folha = Folha
+espelho (Galho x a1 a2) = (Galho x (espelho a2) (espelho a1))
+
+--main = print (folhas a1) --Retorna o numero de folhas
+--main = print (altura a3) Retorna a altura da arvore
+--main = print (espelho a2) Retorna a arvore espelhada
