@@ -30,4 +30,6 @@ possui :: Arvore -> Int -> Bool
 possui (Folha x) k = (x == k)
 possui (Galho a1 a2) k = (possui a1 k) || (possui a2 k)
 
-main = print (possui a3 3)
+--main = print (altura a1)
+--main = print (espelho a3)
+main = print (possui a3 9)
