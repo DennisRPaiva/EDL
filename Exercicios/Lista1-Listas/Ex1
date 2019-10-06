@@ -1,0 +1,23 @@
+xs:: [Int] 
+xs = [1,2,3,4,5,6,7,8,9,10]
+
+pares::[Int]
+pares = filter even xs
+
+inc::Int->Int
+inc x = x + 1
+
+dups:: Int->Int
+dups x = (2*x)
+
+maior ::Int
+maior = maximum xs
+
+menor:: [Int] -> Int
+menor lista = minimum lista
+
+--main = print pares imprime só os pares
+--main = print (map inc xs) incrementa 1 na lista
+--main = print (map dups xs) duplica os itens da lista
+--main = print (menor xs) retorna o menor de uma lista entregue
+--main = print maior retorna o maior da lista xs
