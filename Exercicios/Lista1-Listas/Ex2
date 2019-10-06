@@ -1,0 +1,67 @@
+turma1 :: [ (String,Float,Float) ]
+turma1 = [ ("Joao",7.5,3.5), ("Maria",10.0,8.0), ("Jose",5.0,3.0), ("Sathler", 10.0, 9.5)]
+
+nome :: (String,Float,Float) -> String
+nome (nm,_,_) = nm
+
+nota1 :: (String,Float,Float) -> Float
+nota1 (_,n1,_) = n1
+
+nota2 :: (String,Float,Float) -> Float
+nota2 (_,_,n2) = n2
+
+media :: (String,Float,Float) -> Float
+media aluno = ((nota1 aluno) + (nota2 aluno)) / 2
+
+medias :: [ (String,Float,Float) ] -> [Float]
+medias turma = map media turma
+
+--funcao que retorna a media de uma lista de floats
+media_da_lista::[Float] -> Float
+media_da_lista lista = (foldr (+) 0.0 lista)/fromIntegral(length lista)
+{-
+  O que esta sendo feito aqui eh:
+  de tras pra frente: 10+0=10, 10+5=15,15+10=25,25+7,5=32,5
+  logo depois aplica-se a divisao nesse resultado
+  32,5/4 = 8,125. Isso no caso da nota 1
+-}
+
+-- Lista das primeiras notas da turma
+notas1::[Float]
+notas1 = map nota1 turma1
+
+-- Lista das segundas notas da turma
+notas2::[Float]
+notas2 = map nota2 turma1 
+
+--funcao que retorna todos os alunos que tiraram acima de 8
+oitos::[(String,Float,Float)]->[String]
+oitos lista = map nome (filter t(filter g lista))
+  where t(_,n1,_) = (n1>=8)
+        g(k,n1,n2) = (n2>=8)
+
+--funcao que retorna a media de todas as notas da turma (p1, p2, media)
+todas :: [(String,Float,Float)] -> (Float, Float, Float)
+todas turma = (media_da_lista(map nota1 turma),media_da_lista(map nota2 turma), media_da_lista(map media turma1))
+
+baixas::[Float]
+baixas = filter (<=5) (notas1++notas2)
+
+situacao::(String,Float,Float)->String
+situacao aluno = if (media aluno)>= 5.0 then "Aprovado" else "Reprovado"
+
+linha::(String, Float, Float) -> String
+linha aluno = (nome aluno) ++" "++ show (media aluno) ++ " (" ++ (situacao aluno) ++ ")"
+--show transforma em string
+
+pretty :: [ (String,Float,Float) ] -> String
+pretty turma = foldr t " " (map linha turma)
+  where t x y = concat[x, "\n", y]
+
+--main = print (map nota1 turma1) nota1 de todos os alunos
+--main = print (oitos turma1) media acima de 8
+
+--main = print (media_da_lista (medias turma1)) retorna a media de todas as medias
+--main = print (todas turma1) retorna uma tripla com media(P1),media(P2), media(P1+P2)
+--main = print (baixas) retorna as notas(p1 ou p2)que sao menores que 5
+main = putStrLn (pretty turma1)
