@@ -1,0 +1,45 @@
+data Exp = Num Double
+         | Add Exp Exp
+         | Sub Exp Exp
+         | Mult Exp Exp
+         | Div Exp Exp
+         | And Exp Exp
+         | Or Exp Exp
+         | Not Exp Exp
+
+  deriving Show
+
+
+num00 = And (Num 1) (Num 2)
+num0 = Sub (Add (Num 1) (Num 10)) (Num 20) 
+num1 = Add (Num 1) (Sub (Num 10) (Num 20)) 
+num2 = Sub (Add (Num 5) (Num 5)) (Sub (Num 5) (Num 5))
+num3 = Sub (Mult (Num 5) (Num 5)) (Div (Num 5) (Num 5))
+
+
+avalia :: Exp -> Double
+avalia (Num i) = i
+avalia (Add i j) = (avalia i) + (avalia j)
+avalia (Sub i j) = (avalia i) - (avalia j)
+avalia (Mult i j) = (avalia i) * (avalia j)
+avalia (Div i j) = (avalia i) / (avalia j)
+avalia (And i j) = case (avalia i, avalia j)  of
+                    (0,0) -> 0
+                    (_,0) -> 0
+                    (0,_) -> 0
+                    (_,_) -> 1
+
+avalia' ::  Double -> Exp
+avalia' i = (Num i) 
+
+
+
+--main = print (num0)
+--main = print (num1)
+--main = print (num2)
+--main = print (avalia num1,avalia' (avalia num1))
+--main = print (avalia num3,avalia' (avalia num3))
+--main = print (avalia(avaliaExp num00))
+main = print (avalia num00)
+
+
